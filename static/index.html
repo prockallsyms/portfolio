@@ -1,13 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="./favicon.ico">
-    <link rel="stylesheet" href="./styles.scss">
-    <title>Yew App</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="prockallsyms — penetration testing, security research, Rust" />
+    <title>prockallsyms</title>
+    <!-- GH Pages project-site subpath. yew-router 0.20's BrowserRouter reads this
+         automatically — no basename prop needed (§A.4). -->
+    <base href="/portfolio/" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="stylesheet" href="./css/app.css" />
+    <script>
+      // Theme bootstrap — runs before first paint (prevents dark-mode flash).
+      // The Yew ThemeToggle (T04) reads the same key and keeps it in sync.
+      (function () {
+        var t = localStorage.getItem("theme");
+        var dark = t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+        if (dark) document.documentElement.classList.add("dark");
+      })();
+    </script>
   </head>
-  <body>
-    <script src="./index.ts"></script>
+  <body class="bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
+    <div id="app"></div>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>

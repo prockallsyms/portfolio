@@ -1,3 +1,6 @@
+[workspace]
+members = ["dev-server"]
+
 [package]
 authors = ["You <you@example.com>"]
 categories = ["wasm"]
