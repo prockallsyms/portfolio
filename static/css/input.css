@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: <ThemeToggle/> flips `.dark` on <html>;
+   the inline script in index.html seeds it before first paint. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* System font stacks only — no webfont fetches (site must work offline). */
+  --font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+
+  /* Brand accent (cyan). Usable as text-accent, bg-accent, border-accent, ring-accent. */
+  --color-accent: #22d3ee;
+}
