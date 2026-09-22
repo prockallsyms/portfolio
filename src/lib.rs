@@ -1,15 +1,16 @@
-pub mod app;
-pub mod components;
-pub mod routes;
+//! Portfolio SPA — crate root and wasm entry point.
 
 use wasm_bindgen::prelude::*;
 
-use app::App;
+mod app;
+mod components;
+mod routes;
 
-// This is the entry point for the web app
+pub use app::App;
+
+/// Starts the Yew app (called from `static/main.js`).
 #[wasm_bindgen]
-pub fn run() -> Result<(), JsValue> {
-    wasm_logger::init(wasm_logger::Config::default());
+pub fn run() {
+    wasm_logger::init(wasm_logger::Config::new(log::Level::Warn));
     yew::Renderer::<App>::new().render();
-    Ok(())
 }
