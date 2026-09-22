@@ -13,7 +13,7 @@ pub fn not_found() -> Html {
             <h1 class="text-3xl font-bold">{"404"}</h1>
             <img src="./assets/coffee_cup.gif" alt="" aria-hidden="true" class="h-24 w-24" />
             <p class="text-lg">
-                { "This page is a 404 — even the coffee is out." }
+                { "This route doesn't exist — like a clean pentest report, it simply isn't here." }
             </p>
             <Link<AppRoute> to={AppRoute::Home} classes="text-sm underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent">
                 { "Back to the home page" }

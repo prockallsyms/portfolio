@@ -11,6 +11,8 @@ pub fn about() -> Html {
     let person = &DATA.person;
     let show_experience = !DATA.experience.is_empty();
     let show_education = !DATA.education.is_empty();
+    let show_certifications = !DATA.certifications.is_empty();
+    let show_labs = !DATA.personal_labs.is_empty();
 
     html! {
         <div class="space-y-12">
@@ -30,7 +32,11 @@ pub fn about() -> Html {
                                     <p class="text-sm text-slate-500 dark:text-slate-400">
                                         { item.start }{ " – " }{ item.end.unwrap_or("present") }
                                     </p>
-                                    <p class="text-sm">{ item.notes }</p>
+                                    { if item.notes.is_empty() {
+                                        html! {}
+                                    } else {
+                                        html! { <p class="text-sm">{ item.notes }</p> }
+                                    } }
                                 </li>
                             }).collect::<Html>() }
                         </ol>
@@ -48,6 +54,20 @@ pub fn about() -> Html {
                                 </li>
                             }).collect::<Html>() }
                         </ul>
+                    </Section>
+                }
+            } else { html! {} } }
+            { if show_certifications {
+                html! {
+                    <Section heading="Certifications">
+                        <p class="max-w-prose">{ DATA.certifications }</p>
+                    </Section>
+                }
+            } else { html! {} } }
+            { if show_labs {
+                html! {
+                    <Section heading="Personal labs">
+                        <p class="max-w-prose">{ DATA.personal_labs }</p>
                     </Section>
                 }
             } else { html! {} } }
