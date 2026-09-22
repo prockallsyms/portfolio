@@ -57,7 +57,7 @@
 
  | ID | Task | Deps | Status | Done (SHA) |
  |---|---|---|---|---|
- | T01 | Toolchain: wasm-pack, retarget wasm32-unknown-unknown, kill Parcel, module loader, dev server | — | ⬜ | |
+ | T01 | Toolchain: wasm-pack, retarget wasm32-unknown-unknown, kill Parcel, module loader, dev server | — | ✅ | b5a210a |
  | T02 | Cargo manifest: edition 2024, metadata, deps, profiles | T01 | ⬜ | |
  | T03 | Migrate existing app to yew 0.23 / yew-router 0.20 (mechanical, no features) | T02 | ⬜ | |
  | T04 | Skeleton: typed data layer, pages, components, routes (placeholder content) | T03 | ⬜ | |

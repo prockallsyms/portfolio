@@ -1,18 +1,17 @@
 use yew::prelude::*;
-use yew_hooks::prelude::*;
 
 /// Home page
 #[function_component(Home)]
 pub fn home() -> Html {
-    let counter = use_counter(0);
+    let counter = use_state(|| 0);
 
     let onincrease = {
         let counter = counter.clone();
-        Callback::from(move |_| counter.increase())
+        Callback::from(move |_| counter.set(*counter + 1))
     };
     let ondecrease = {
         let counter = counter.clone();
-        Callback::from(move |_| counter.decrease())
+        Callback::from(move |_| counter.set(*counter - 1))
     };
 
     html! {

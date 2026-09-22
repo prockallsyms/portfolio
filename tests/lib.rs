@@ -2,13 +2,12 @@ use wasm_bindgen_test::*;
 
 wasm_bindgen_test_configure!(run_in_browser);
 
-use yew::start_app;
-use yew_app::app::App as YewApp;
-use yew_app::components::nav::Nav;
+use portfolio::app::App as YewApp;
+use portfolio::components::nav::Nav;
 
 #[wasm_bindgen_test]
 fn app_has_a_home_page() {
-    start_app::<YewApp>();
+    yew::Renderer::<YewApp>::new().render();
 
     let learn_yew = gloo_utils::document()
         .get_element_by_id("learn_yew")
@@ -19,7 +18,7 @@ fn app_has_a_home_page() {
 
 #[wasm_bindgen_test]
 fn nav_component_has_routes() {
-    start_app::<Nav>();
+    yew::Renderer::<Nav>::new().render();
 
     let nav_routes = gloo_utils::document().get_elements_by_class_name("app-link");
 

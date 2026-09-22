@@ -70,7 +70,12 @@ fn safe_join(base: &Path, rel: &str) -> Option<PathBuf> {
     let path = base.join(rel);
     let canonical_base = base.canonicalize().ok()?;
     let canonical_path = path.canonicalize().ok()?;
-    Some(canonical_path.strip_prefix(&canonical_base).ok()?.to_path_buf())
+    Some(
+        canonical_path
+            .strip_prefix(&canonical_base)
+            .ok()?
+            .to_path_buf(),
+    )
 }
 
 fn mime_for(path: &Path) -> &'static str {
