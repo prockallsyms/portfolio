@@ -64,7 +64,7 @@
  | T05 | Tailwind v4: pinned CLI, design tokens, theme toggle wiring | T04 | ✅ | 65d4e65 |
  | T06 | Visual polish, responsive pass, a11y pass | T05 | ✅ | 34c31e9 |
  | T07 | Real content into `src/data` (owner-verified, §A.2/§A.3) | T06 | ✅ | e08b098 |
- | T08 | Tests: native data tests + wasm render tests | T07 | ⬜ | |
+ | T08 | Tests: native data tests + wasm render tests | T07 | ✅ | 85a2ff8 |
  | T09 | CI + GitHub Pages deploy | T08 | ⬜ | |
  | T10 | Ship: history sanitize, README, LICENSE, perf, v1.0.0 | T09 | ⬜ | |
 
