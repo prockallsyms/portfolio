@@ -62,7 +62,7 @@
  | T03 | Migrate existing app to yew 0.23 / yew-router 0.20 (mechanical, no features) | T02 | ✅ | 91a7014 |
  | T04 | Skeleton: typed data layer, pages, components, routes (placeholder content) | T03 | ✅ | a969918 |
  | T05 | Tailwind v4: pinned CLI, design tokens, theme toggle wiring | T04 | ✅ | 65d4e65 |
- | T06 | Visual polish, responsive pass, a11y pass | T05 | ⬜ | |
+ | T06 | Visual polish, responsive pass, a11y pass | T05 | ✅ | 34c31e9 |
  | T07 | Real content into `src/data` (owner-verified, §A.2/§A.3) | T06 | ⬜ | |
  | T08 | Tests: native data tests + wasm render tests | T07 | ⬜ | |
  | T09 | CI + GitHub Pages deploy | T08 | ⬜ | |
