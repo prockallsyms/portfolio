@@ -180,3 +180,112 @@ pub struct SiteData {
     /// One-line personal-lab summary for the About page.
     pub personal_labs: &'static str,
 }
+
+#[cfg(test)]
+mod tests {
+    use super::DATA;
+
+    /// The DoD email pattern: `@local.tld` with a com/net/org TLD
+    /// (case-insensitive). The bio's "@ Elton" must not count — no domain
+    /// follows the `@`.
+    fn contains_email(s: &str) -> bool {
+        let lower = s.to_ascii_lowercase();
+        let after = lower.find('@').map(|i| &lower[i + 1..]).unwrap_or_default();
+        let local: String = after
+            .chars()
+            .take_while(|c| c.is_ascii_alphanumeric() || *c == '-' || *c == '.')
+            .collect();
+        local.ends_with(".com") || local.ends_with(".net") || local.ends_with(".org")
+    }
+
+    fn every_data_string() -> Vec<&'static str> {
+        let mut out = vec![
+            DATA.person.handle,
+            DATA.person.tagline,
+            DATA.person.bio,
+            DATA.person.github,
+            DATA.person.linkedin,
+            DATA.person.avatar,
+            DATA.certifications,
+            DATA.personal_labs,
+        ];
+        for e in DATA.experience {
+            out.extend([e.org, e.role, e.start, e.end.unwrap_or(""), e.notes]);
+        }
+        for e in DATA.education {
+            out.extend([e.school, e.degree, e.years]);
+        }
+        for p in DATA.projects {
+            out.push(p.title);
+            out.push(p.blurb);
+            out.push(p.url);
+            out.extend(p.tags);
+        }
+        for g in DATA.skills {
+            out.push(g.heading);
+            out.extend(g.skills);
+        }
+        out
+    }
+
+    /// Identity is the handle only — no real name, no email (§1).
+    #[test]
+    fn identity_is_handle_only() {
+        assert_eq!(DATA.person.handle, "prockallsyms");
+        assert!(!DATA.person.bio.is_empty());
+        assert!(
+            DATA.person
+                .github
+                .starts_with("https://github.com/prockallsyms")
+        );
+        assert!(
+            DATA.person
+                .linkedin
+                .starts_with("https://www.linkedin.com/in/")
+        );
+    }
+
+    /// No email-shaped string anywhere in the content (DoD pattern).
+    #[test]
+    fn no_email_in_any_data_string() {
+        for s in every_data_string() {
+            assert!(!contains_email(s), "email-like string: {s:?}");
+        }
+    }
+
+    /// All six repos present, well-formed, GitHub-owned.
+    #[test]
+    fn all_six_projects_present_and_well_formed() {
+        let expected = [
+            "corrode",
+            "analyzer",
+            "TestAssist",
+            "hookdb",
+            "malpraxis",
+            "collector-rs",
+        ];
+        let titles: Vec<_> = DATA.projects.iter().map(|p| p.title).collect();
+        assert_eq!(titles.len(), 6);
+        for t in expected {
+            assert!(titles.contains(&t), "missing {t}");
+        }
+        for p in DATA.projects {
+            assert!(!p.title.is_empty() && !p.blurb.is_empty());
+            assert!(p.url.starts_with("https://github.com/prockallsyms/"));
+            assert!(!p.tags.is_empty());
+        }
+    }
+
+    /// Experience is non-empty, current role first, every entry shaped.
+    #[test]
+    fn experience_order_and_shape() {
+        assert!(!DATA.experience.is_empty());
+        assert!(
+            DATA.experience[0].end.is_none(),
+            "current role must be first"
+        );
+        for e in DATA.experience {
+            assert!(!e.org.is_empty() && !e.role.is_empty() && !e.start.is_empty());
+        }
+    }
+}

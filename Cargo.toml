@@ -16,14 +16,15 @@ crate-type = ["cdylib", "rlib"]   # cdylib for wasm-pack, rlib for native tests
 
 [dependencies]
 # yew 0.23: default features are empty — "csr" is REQUIRED for browser rendering (§A.4).
-yew = { version = "0.23", features = ["csr"] }
+# "test" is empty (no deps); it gates yew::scheduler::flush() used by the render tests.
+yew = { version = "0.23", features = ["csr", "test"] }
 yew-router = "0.20"
 serde = { version = "1", features = ["derive"] }
 log = "0.4"
 wasm-bindgen = "0.2"
 wasm-logger = "0.2"
 # DOM access for the theme toggle (features verified against web-sys 0.3.105, §A.4).
-web-sys = { version = "0.3", features = ["Document", "Element", "DomTokenList", "MediaQueryList", "Storage", "Window"] }
+web-sys = { version = "0.3", features = ["Document", "Element", "DomTokenList", "History", "MediaQueryList", "Storage", "Window"] }
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
