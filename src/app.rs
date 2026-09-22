@@ -25,8 +25,12 @@ pub enum AppRoute {
 pub fn app() -> Html {
     html! {
         <BrowserRouter>
+            <a
+                href="#main-content"
+                class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-slate-900 focus:shadow-lg focus-visible:outline-2 focus-visible:outline-accent dark:focus:bg-slate-900 dark:focus:text-slate-100"
+            >{"Skip to content"}</a>
             <Nav />
-            <main class="mx-auto w-full max-w-3xl px-4 py-10">
+            <main id="main-content" class="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 sm:py-24">
                 <Switch<AppRoute> render={Callback::from(switch)} />
             </main>
             <Footer />

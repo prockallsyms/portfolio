@@ -68,7 +68,7 @@ pub fn theme_toggle() -> Html {
             type="button"
             onclick={on_click}
             aria-label={if *dark { "Switch to light mode" } else { "Switch to dark mode" }}
-            class="rounded p-1 text-lg leading-none"
+            class="rounded-md p-1 text-lg leading-none transition-colors hover:bg-slate-200/70 focus-visible:outline-2 focus-visible:outline-accent active:bg-slate-300/70 dark:hover:bg-slate-800/70 dark:active:bg-slate-700/70"
         >
             { if *dark { "☀" } else { "🌙" } }
         </button>

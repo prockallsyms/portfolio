@@ -14,8 +14,9 @@ pub fn about() -> Html {
 
     html! {
         <div class="space-y-12">
+            <h1 class="text-3xl font-bold">{"About"}</h1>
             <Section heading="Bio">
-                <p>{ person.bio }</p>
+                <p class="max-w-prose">{ person.bio }</p>
             </Section>
             { if show_experience {
                 html! {

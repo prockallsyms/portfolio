@@ -18,13 +18,13 @@ pub fn project_card(props: &ProjectCardProps) -> Html {
     let project = props.project;
 
     html! {
-        <article class="rounded-lg border border-slate-200 p-4 dark:border-slate-800">
+        <article class="rounded-lg border border-slate-200 p-4 transition-colors hover:border-accent/60 hover:shadow-sm dark:border-slate-800">
             <h3 class="font-semibold">
                 <a
                     href={project.url}
                     target="_blank"
                     rel="me noopener"
-                    class="underline hover:text-slate-700 dark:hover:text-slate-200"
+                    class="underline-offset-4 hover:underline hover:text-slate-700 focus-visible:outline-2 focus-visible:outline-accent dark:hover:text-slate-200"
                 >
                     { project.title }
                 </a>

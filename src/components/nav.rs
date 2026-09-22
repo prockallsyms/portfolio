@@ -22,7 +22,7 @@ pub fn nav() -> Html {
     html! {
         <nav
             aria-label="Primary"
-            class="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90"
+            class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80"
         >
             <div class="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3">
                 <ul class="flex gap-4">
@@ -36,6 +36,9 @@ pub fn nav() -> Html {
                                         "py-2",
                                         "text-sm",
                                         "font-medium",
+                                        "rounded",
+                                        "focus-visible:outline-2",
+                                        "focus-visible:outline-accent",
                                         active.then_some("text-slate-900"),
                                         active.then_some("dark:text-slate-100"),
                                         (!active).then_some("text-slate-500"),

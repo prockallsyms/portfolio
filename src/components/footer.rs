@@ -13,10 +13,20 @@ pub fn footer() -> Html {
         <footer class="border-t border-slate-200 py-8 dark:border-slate-800">
             <div class="mx-auto flex w-full max-w-3xl flex-col items-center gap-2 px-4 text-sm">
                 <div class="flex gap-4 font-medium">
-                    <a href={person.github} target="_blank" rel="me noopener" class="underline">
+                    <a
+                        href={person.github}
+                        target="_blank"
+                        rel="me noopener"
+                        class="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent"
+                    >
                         { "GitHub" }
                     </a>
-                    <a href={person.linkedin} target="_blank" rel="me noopener" class="underline">
+                    <a
+                        href={person.linkedin}
+                        target="_blank"
+                        rel="me noopener"
+                        class="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent"
+                    >
                         { "LinkedIn" }
                     </a>
                 </div>

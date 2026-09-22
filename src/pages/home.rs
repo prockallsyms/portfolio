@@ -18,17 +18,27 @@ pub fn home() -> Html {
             <section class="flex flex-col items-center gap-4 text-center">
                 <img
                     src={person.avatar}
-                    alt={person.handle}
+                    alt={format!("Avatar of {}", person.handle)}
                     class="h-24 w-24 rounded-full"
                 />
                 <h1 class="text-3xl font-bold">{ person.handle }</h1>
                 <p class="text-lg text-slate-600 dark:text-slate-300">{ person.tagline }</p>
                 <p class="max-w-xl">{ person.bio }</p>
                 <div class="flex gap-4 text-sm font-medium">
-                    <a href={person.github} target="_blank" rel="me noopener" class="underline">
+                    <a
+                        href={person.github}
+                        target="_blank"
+                        rel="me noopener"
+                        class="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent"
+                    >
                         { "GitHub" }
                     </a>
-                    <a href={person.linkedin} target="_blank" rel="me noopener" class="underline">
+                    <a
+                        href={person.linkedin}
+                        target="_blank"
+                        rel="me noopener"
+                        class="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent"
+                    >
                         { "LinkedIn" }
                     </a>
                 </div>
