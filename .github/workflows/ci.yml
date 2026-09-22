@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+          targets: wasm32-unknown-unknown
+      - uses: taiki-e/install-action@v2
+        with: { tool: wasm-pack }
+      - name: Format
+        run: cargo fmt --all --check
+      - name: Clippy (wasm)
+        run: cargo clippy -p portfolio --target wasm32-unknown-unknown --all-targets -- -D warnings
+      - name: Clippy (host, dev-server)
+        run: cargo clippy -p dev-server --all-targets -- -D warnings
+      - name: Native tests
+        run: cargo test -p portfolio
+      - name: Wasm tests (headless Chrome)
+        run: wasm-pack test --headless --chrome
+      - name: Tailwind (release)
+        run: bash scripts/tw.sh --minify
+      - name: Wasm (release)
+        run: wasm-pack build --release
+      - name: Assemble site
+        run: |
+          rm -rf site && mkdir site
+          cp -R static/. site/
+          cp -R pkg/. site/pkg/
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
