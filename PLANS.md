@@ -59,7 +59,7 @@
  |---|---|---|---|---|
  | T01 | Toolchain: wasm-pack, retarget wasm32-unknown-unknown, kill Parcel, module loader, dev server | — | ✅ | b5a210a |
  | T02 | Cargo manifest: edition 2024, metadata, deps, profiles | T01 | ✅ | 0f394df |
- | T03 | Migrate existing app to yew 0.23 / yew-router 0.20 (mechanical, no features) | T02 | ⬜ | |
+ | T03 | Migrate existing app to yew 0.23 / yew-router 0.20 (mechanical, no features) | T02 | ✅ | 91a7014 |
  | T04 | Skeleton: typed data layer, pages, components, routes (placeholder content) | T03 | ⬜ | |
  | T05 | Tailwind v4: pinned CLI, design tokens, theme toggle wiring | T04 | ⬜ | |
  | T06 | Visual polish, responsive pass, a11y pass | T05 | ⬜ | |

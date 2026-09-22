@@ -1,10 +1,13 @@
+#![forbid(unsafe_code)]
+
 //! Portfolio SPA — crate root and wasm entry point.
 
 use wasm_bindgen::prelude::*;
 
 mod app;
 mod components;
-mod routes;
+mod data;
+mod pages;
 
 pub use app::App;
 
