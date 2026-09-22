@@ -35,3 +35,7 @@ lto = true
 codegen-units = 1
 panic = "abort"
 strip = "symbols"
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
