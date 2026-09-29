@@ -6,11 +6,24 @@ use yew::prelude::*;
 use crate::components::{ProjectCard, Section, TagBadge, TwoPane};
 use crate::data::{DATA, Project};
 
+/// Titles to feature on Home, in display order — explicit rather than
+/// "whatever's first in `DATA.projects`" so the choice survives reordering
+/// or additions to the full project list.
+const FEATURED_TITLES: &[&str] = &["corrode", "collector-rs", "malpraxis"];
+
 /// Home: hero + featured projects (main), contact + skills (rail).
 #[function_component(Home)]
 pub fn home() -> Html {
     let person = &DATA.person;
-    let featured: Vec<&'static Project> = DATA.projects.iter().take(3).collect();
+    let featured: Vec<&'static Project> = FEATURED_TITLES
+        .iter()
+        .map(|title| {
+            DATA.projects
+                .iter()
+                .find(|p| p.title == *title)
+                .unwrap_or_else(|| panic!("FEATURED_TITLES references unknown project {title:?}"))
+        })
+        .collect();
     let show_featured = !featured.is_empty();
     let show_skills = !DATA.skills.is_empty();
 
