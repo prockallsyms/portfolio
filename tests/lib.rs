@@ -67,7 +67,7 @@ async fn about_route_renders_history() {
     );
 }
 
-/// Projects route: all six repo cards render.
+/// Projects route: all fourteen repo cards render.
 #[wasm_bindgen_test]
 async fn projects_route_renders_all_repos() {
     goto("/projects");
@@ -79,6 +79,14 @@ async fn projects_route_renders_all_repos() {
         "hookdb",
         "malpraxis",
         "collector-rs",
+        "irda",
+        "classfile-parser",
+        "pharos",
+        "nrf-toolkit",
+        "can-toolkit",
+        "sastblast",
+        "sast-rules",
+        "rules",
     ] {
         assert!(html.contains(title), "projects must show {title}");
     }

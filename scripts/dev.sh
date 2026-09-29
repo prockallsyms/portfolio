@@ -6,5 +6,5 @@ cd "$(dirname "$0")/.."
 scripts/tw.sh --watch &
 TW_PID=$!
 trap 'kill "$TW_PID" 2>/dev/null || true' EXIT
-wasm-pack build --dev
+wasm-pack build --dev --target web
 exec cargo run -p dev-server

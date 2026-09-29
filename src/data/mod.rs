@@ -3,13 +3,13 @@
 //! All values here are owner-verified (see PLANS.md §A.2 / §A.3). Views render from
 //! this module only; no hardcoded copy lives in components (§4).
 
-/// Site identity & contact. No real name, no email.
+/// Site identity & contact. No real name, no email, no other identifying
+/// contact method — GitHub only.
 pub struct Person {
     pub handle: &'static str,
     pub tagline: &'static str,
     pub bio: &'static str,
     pub github: &'static str,
-    pub linkedin: &'static str,
     pub avatar: &'static str,
 }
 
@@ -52,7 +52,6 @@ pub const DATA: SiteData = SiteData {
         tagline: "Penetration tester & Rust developer", // §5 — final wording pending owner pick
         bio: "I'm a math/cyber/development sorta person. I do things @ Elton.",
         github: "https://github.com/prockallsyms",
-        linkedin: "https://www.linkedin.com/in/redacted",
         avatar: "./assets/avatar.jpg",
     },
     experience: &[
@@ -140,6 +139,87 @@ pub const DATA: SiteData = SiteData {
             tags: &["Rust", "forensics", "MCP", "security"],
             url: "https://github.com/prockallsyms/collector-rs",
         },
+        Project {
+            title: "irda",
+            blurb: "Out-of-tree Linux IrDA kernel subsystem — dropped from mainline in v4.17, \
+                    kept alive via DKMS for legacy hardware. Paired with a protocol-fuzzing \
+                    harness (a Scapy IrDA/OBEX dissector plus LAP & OBEX fuzzers) that found and \
+                    patched real kernel vulnerabilities, including an OBEX SAR reassembly buffer \
+                    overflow.",
+            tags: &["C", "Linux kernel", "IrDA", "fuzzing", "DKMS"],
+            url: "https://github.com/prockallsyms/irda",
+        },
+        Project {
+            title: "classfile-parser",
+            blurb: "Fork of a Rust Java .class parser, rebuilt on binrw with JAR parsing added, \
+                    plus a from-scratch bytecode decompiler and compiler — round-trips whole \
+                    JAR/WAR/SAR archives to .java and back via a decompile_jar example.",
+            tags: &["Rust", "JVM bytecode", "binrw", "decompiler"],
+            url: "https://github.com/prockallsyms/classfile-parser",
+        },
+        Project {
+            title: "pharos",
+            blurb: "Fork of CMU SEI's Pharos static-analysis suite, porting OOAnalyzer's C++ \
+                    object-recovery to x86-64 ELF/System V binaries (previously MSVC/PE-only) — \
+                    added CET-aware PLT thunk detection and generalized this-call ABI reasoning \
+                    across calling conventions.",
+            tags: &["C++", "reverse engineering", "binary analysis", "ELF"],
+            url: "https://github.com/prockallsyms/pharos",
+        },
+        Project {
+            title: "nrf-toolkit",
+            blurb: "Wireless security testing toolkit for the nRF52840 dev kit — custom Zephyr \
+                    firmware plus a Python CLI covering BLE, NFC, Zigbee, Thread, and Matter, \
+                    with hardware-verified sniffing/injection tools and a YAML-rule \
+                    vulnerability-audit engine (SweynTooth, KNOB, BLESA, insecure rejoin, and \
+                    more).",
+            tags: &[
+                "Python",
+                "Zephyr RTOS",
+                "BLE",
+                "Zigbee",
+                "wireless security",
+            ],
+            url: "https://github.com/prockallsyms/nrf-toolkit",
+        },
+        Project {
+            title: "can-toolkit",
+            blurb: "Cross-platform CAN / CAN FD security toolkit for the PCAN-USB FD adapter, \
+                    built on python-can: monitoring, DBC decoding, UDS enumeration, ISO-TP, and \
+                    a security module (ID scanning, fuzzing, frame injection).",
+            tags: &["Python", "CAN bus", "automotive security", "UDS"],
+            url: "https://github.com/prockallsyms/can-toolkit",
+        },
+        Project {
+            title: "sastblast",
+            blurb: "Bash-orchestrated multi-tool SAST/SBOM/binary-analysis harness: fans dozens \
+                    of Dockerized scanners (CodeQL, Semgrep, cwe_checker, capa, and more) out in \
+                    parallel across a target source tree, auto-discovering binaries and .NET \
+                    projects along the way.",
+            tags: &["Shell", "Docker", "SAST", "SBOM"],
+            url: "https://github.com/prockallsyms/sastblast",
+        },
+        Project {
+            title: "sast-rules",
+            blurb: "Semgrep rule collection spanning 45+ languages (C/C++, Rust, Go, Java, \
+                    Python, Solidity, Zig, and more) for scanning a source tree with a single \
+                    docker run against the official Semgrep image.",
+            tags: &["Semgrep", "static analysis", "multi-language"],
+            url: "https://github.com/prockallsyms/sast-rules",
+        },
+        Project {
+            title: "rules",
+            blurb: "227-commit community contribution to VulHunt's binary-scanning rule set: \
+                    per-CVE detections plus dangerous-API rule packs for C/C++/Go/Rust/Zig, each \
+                    validated against purpose-built positive/negative control binaries.",
+            tags: &[
+                "Lua",
+                "binary analysis",
+                "VulHunt",
+                "vulnerability detection",
+            ],
+            url: "https://github.com/prockallsyms/rules",
+        },
     ],
     skills: &[
         SkillGroup {
@@ -204,7 +284,6 @@ mod tests {
             DATA.person.tagline,
             DATA.person.bio,
             DATA.person.github,
-            DATA.person.linkedin,
             DATA.person.avatar,
             DATA.certifications,
             DATA.personal_labs,
@@ -228,7 +307,7 @@ mod tests {
         out
     }
 
-    /// Identity is the handle only — no real name, no email (§1).
+    /// Identity is the handle only — no real name, no email, GitHub-only contact (§1).
     #[test]
     fn identity_is_handle_only() {
         assert_eq!(DATA.person.handle, "prockallsyms");
@@ -237,11 +316,6 @@ mod tests {
             DATA.person
                 .github
                 .starts_with("https://github.com/prockallsyms")
-        );
-        assert!(
-            DATA.person
-                .linkedin
-                .starts_with("https://www.linkedin.com/in/")
         );
     }
 
@@ -253,9 +327,9 @@ mod tests {
         }
     }
 
-    /// All six repos present, well-formed, GitHub-owned.
+    /// All fourteen repos present, well-formed, GitHub-owned.
     #[test]
-    fn all_six_projects_present_and_well_formed() {
+    fn all_fourteen_projects_present_and_well_formed() {
         let expected = [
             "corrode",
             "analyzer",
@@ -263,9 +337,17 @@ mod tests {
             "hookdb",
             "malpraxis",
             "collector-rs",
+            "irda",
+            "classfile-parser",
+            "pharos",
+            "nrf-toolkit",
+            "can-toolkit",
+            "sastblast",
+            "sast-rules",
+            "rules",
         ];
         let titles: Vec<_> = DATA.projects.iter().map(|p| p.title).collect();
-        assert_eq!(titles.len(), 6);
+        assert_eq!(titles.len(), 14);
         for t in expected {
             assert!(titles.contains(&t), "missing {t}");
         }

@@ -1,4 +1,4 @@
-//! Section wrapper: a `<section>` with an `<h2>` heading and children.
+//! Section wrapper: a `<section>` with a mono `//` eyebrow heading and children.
 
 use yew::prelude::*;
 
@@ -12,12 +12,16 @@ pub struct SectionProps {
     pub children: Html,
 }
 
-/// A `<section>` with an `<h2>` heading.
+/// A `<section>` with a small mono uppercase eyebrow heading, prefixed with a
+/// decorative `//` (code-comment style) in the accent color.
 #[function_component(Section)]
 pub fn section(props: &SectionProps) -> Html {
     html! {
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">{ props.heading }</h2>
+        <section class="space-y-5">
+            <h2 class="label flex items-center gap-2">
+                <span aria-hidden="true" class="text-[var(--accent-text)]">{"//"}</span>
+                { props.heading }
+            </h2>
             { props.children.clone() }
         </section>
     }

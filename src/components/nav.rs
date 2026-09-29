@@ -8,12 +8,12 @@ use crate::components::ThemeToggle;
 
 /// Nav links, in display order.
 const LINKS: &[(AppRoute, &str)] = &[
-    (AppRoute::Home, "Home"),
-    (AppRoute::About, "About"),
-    (AppRoute::Projects, "Projects"),
+    (AppRoute::Home, "home"),
+    (AppRoute::About, "about"),
+    (AppRoute::Projects, "projects"),
 ];
 
-/// Sticky top bar: nav links (active one highlighted) + theme toggle.
+/// Sticky top bar: mono `root@` brand mark, nav links (active one bracketed), theme toggle.
 #[function_component(Nav)]
 pub fn nav() -> Html {
     // Called once, outside the loop — hooks may not run inside `for`.
@@ -22,10 +22,16 @@ pub fn nav() -> Html {
     html! {
         <nav
             aria-label="Primary"
-            class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80"
+            class="sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--bg)]/85 backdrop-blur"
         >
-            <div class="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3">
-                <ul class="flex gap-4">
+            <div class="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-4">
+                <Link<AppRoute>
+                    to={AppRoute::Home}
+                    classes="font-mono text-sm text-[var(--fg)] hover:text-[var(--accent-text)]"
+                >
+                    { "prockallsyms@localhost" }
+                </Link<AppRoute>>
+                <ul class="flex items-center gap-4">
                     { LINKS.iter().map(|(to, label)| {
                         let active = route.as_ref() == Some(to);
                         html! {
@@ -33,27 +39,30 @@ pub fn nav() -> Html {
                                 <Link<AppRoute>
                                     to={to.clone()}
                                     classes={classes!(
-                                        "py-2",
-                                        "text-sm",
-                                        "font-medium",
-                                        "rounded",
-                                        "focus-visible:outline-2",
-                                        "focus-visible:outline-accent",
-                                        active.then_some("text-slate-900"),
-                                        active.then_some("dark:text-slate-100"),
-                                        (!active).then_some("text-slate-500"),
-                                        (!active).then_some("hover:text-slate-800"),
-                                        (!active).then_some("dark:text-slate-400"),
-                                        (!active).then_some("dark:hover:text-slate-200")
+                                        "font-mono",
+                                        "text-xs",
+                                        "tracking-[0.02em]",
+                                        "transition-colors",
+                                        active.then_some("text-[var(--accent-text)]"),
+                                        (!active).then_some("text-[var(--fg-muted)]"),
+                                        (!active).then_some("hover:text-[var(--fg)]")
                                     )}
                                 >
-                                    { label }
+                                    { if active {
+                                        html! { <>
+                                            <span aria-hidden="true">{"["}</span>
+                                            { label }
+                                            <span aria-hidden="true">{"]"}</span>
+                                        </> }
+                                    } else {
+                                        html! { { label } }
+                                    } }
                                 </Link<AppRoute>>
                             </li>
                         }
                     }).collect::<Html>() }
+                    <li><ThemeToggle /></li>
                 </ul>
-                <ThemeToggle />
             </div>
         </nav>
     }

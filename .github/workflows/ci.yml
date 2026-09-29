@@ -29,7 +29,7 @@ jobs:
       - name: Tailwind (release)
         run: bash scripts/tw.sh --minify
       - name: Wasm (release)
-        run: wasm-pack build --release
+        run: wasm-pack build --release --target web
       - name: Assemble site
         run: |
           rm -rf site && mkdir site

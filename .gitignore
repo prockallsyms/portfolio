@@ -13,3 +13,6 @@
 # tailwind pinned binary + Pages staging dir
 /.bin
 /site
+
+# macOS Finder metadata
+.DS_Store

@@ -1,36 +1,28 @@
-//! Site footer: contact links and a one-liner.
+//! Site footer: contact link and a one-liner.
 
 use yew::prelude::*;
 
 use crate::data::DATA;
 
-/// Footer with GitHub/LinkedIn links and a short one-liner (no name, no email).
+/// Footer with the GitHub link and a short one-liner (no name, no email, GitHub only).
 #[function_component(Footer)]
 pub fn footer() -> Html {
     let person = &DATA.person;
 
     html! {
-        <footer class="border-t border-slate-200 py-8 dark:border-slate-800">
-            <div class="mx-auto flex w-full max-w-3xl flex-col items-center gap-2 px-4 text-sm">
-                <div class="flex gap-4 font-medium">
+        <footer class="border-t border-[var(--border)]">
+            <div class="mx-auto flex w-full max-w-5xl flex-col items-center gap-3 px-6 py-10 text-sm sm:flex-row sm:justify-between">
+                <p class="font-mono text-xs text-[var(--fg-faint)]">{ person.handle }</p>
+                <div class="flex gap-5 font-mono text-xs uppercase tracking-[0.1em] text-[var(--fg-muted)]">
                     <a
                         href={person.github}
                         target="_blank"
                         rel="me noopener"
-                        class="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent"
+                        class="underline-offset-4 hover:text-[var(--fg)] hover:underline"
                     >
                         { "GitHub" }
                     </a>
-                    <a
-                        href={person.linkedin}
-                        target="_blank"
-                        rel="me noopener"
-                        class="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent"
-                    >
-                        { "LinkedIn" }
-                    </a>
                 </div>
-                <p class="text-slate-500 dark:text-slate-400">{ person.handle }</p>
             </div>
         </footer>
     }

@@ -1,11 +1,12 @@
-//! Home page: hero (avatar, tagline, bio, contact links), featured projects, skills teaser.
+//! Home page: hero (avatar, tagline, bio) + featured projects in the main
+//! column, GitHub link + skills in the sticky rail.
 
 use yew::prelude::*;
 
-use crate::components::{ProjectCard, Section, TagBadge};
+use crate::components::{ProjectCard, Section, TagBadge, TwoPane};
 use crate::data::{DATA, Project};
 
-/// Home: hero, up to three featured projects, and a skills teaser.
+/// Home: hero + featured projects (main), contact + skills (rail).
 #[function_component(Home)]
 pub fn home() -> Html {
     let person = &DATA.person;
@@ -13,61 +14,76 @@ pub fn home() -> Html {
     let show_featured = !featured.is_empty();
     let show_skills = !DATA.skills.is_empty();
 
-    html! {
-        <div class="space-y-12">
-            <section class="flex flex-col items-center gap-4 text-center">
-                <img
-                    src={person.avatar}
-                    alt={format!("Avatar of {}", person.handle)}
-                    class="h-24 w-24 rounded-full"
-                />
-                <h1 class="text-3xl font-bold">{ person.handle }</h1>
-                <p class="text-lg text-slate-600 dark:text-slate-300">{ person.tagline }</p>
-                <p class="max-w-xl">{ person.bio }</p>
-                <div class="flex gap-4 text-sm font-medium">
+    let rail = html! {
+        <>
+            <div class="space-y-3">
+                <span class="label text-[var(--accent-text)]">{"// contact"}</span>
+                <div class="flex flex-col items-start gap-2 font-mono text-xs uppercase tracking-[0.1em]">
                     <a
                         href={person.github}
                         target="_blank"
                         rel="me noopener"
-                        class="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent"
+                        class="underline-offset-4 hover:text-[var(--accent-text)] hover:underline"
                     >
                         { "GitHub" }
                     </a>
-                    <a
-                        href={person.linkedin}
-                        target="_blank"
-                        rel="me noopener"
-                        class="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent"
-                    >
-                        { "LinkedIn" }
-                    </a>
                 </div>
-            </section>
-            { if show_featured {
-                html! {
-                    <Section heading="Featured projects">
-                        <div class="grid gap-4 sm:grid-cols-2">
-                            { featured.iter().map(|p| html! { <ProjectCard project={p} /> }).collect::<Html>() }
-                        </div>
-                    </Section>
-                }
-            } else { html! {} } }
+            </div>
             { if show_skills {
                 html! {
-                    <Section heading="Skills">
-                        <div class="space-y-3">
-                            { DATA.skills.iter().map(|group| html! {
-                                <div class="space-y-1">
-                                    <h3 class="text-sm font-semibold">{ group.heading }</h3>
-                                    <div class="flex flex-wrap gap-2">
-                                        { group.skills.iter().map(|skill| html! { <TagBadge label={*skill} /> }).collect::<Html>() }
-                                    </div>
+                    <div class="space-y-4">
+                        <span class="label text-[var(--accent-text)]">{"// skills"}</span>
+                        { DATA.skills.iter().map(|group| html! {
+                            <div class="space-y-2">
+                                <h3 class="text-sm font-semibold">{ group.heading }</h3>
+                                <div class="flex flex-wrap gap-1.5">
+                                    { group.skills.iter().map(|skill| html! { <TagBadge label={*skill} /> }).collect::<Html>() }
                                 </div>
-                            }).collect::<Html>() }
-                        </div>
-                    </Section>
+                            </div>
+                        }).collect::<Html>() }
+                    </div>
                 }
             } else { html! {} } }
-        </div>
+        </>
+    };
+
+    html! {
+        <TwoPane rail={rail}>
+            <div class="space-y-16">
+                <section class="animate-fade-up relative flex flex-col items-start gap-5 pb-2">
+                    <div aria-hidden="true" class="grid-texture pointer-events-none absolute -inset-x-6 -top-16 -z-10 h-56"></div>
+                    <div class="relative inline-block">
+                        <img
+                            src={person.avatar}
+                            alt={format!("Avatar of {}", person.handle)}
+                            class="h-16 w-16 rounded-sm border border-[var(--border-strong)] object-cover"
+                        />
+                        <span aria-hidden="true" class="absolute -left-1.5 -top-1.5 h-3 w-3 border-l border-t border-[var(--accent)]"></span>
+                        <span aria-hidden="true" class="absolute -right-1.5 -top-1.5 h-3 w-3 border-r border-t border-[var(--accent)]"></span>
+                        <span aria-hidden="true" class="absolute -bottom-1.5 -left-1.5 h-3 w-3 border-b border-l border-[var(--accent)]"></span>
+                        <span aria-hidden="true" class="absolute -bottom-1.5 -right-1.5 h-3 w-3 border-r border-b border-[var(--accent)]"></span>
+                    </div>
+                    <div class="space-y-2">
+                        <h1 class="text-2xl font-semibold tracking-tight">{ person.handle }</h1>
+                        <p class="font-mono text-sm text-[var(--accent-text)]">
+                            { person.tagline }
+                            <span aria-hidden="true" class="cursor-blink">{"▌"}</span>
+                        </p>
+                    </div>
+                    <p class="max-w-lg text-[var(--fg-muted)]">{ person.bio }</p>
+                </section>
+                { if show_featured {
+                    html! {
+                        <Section heading="Featured projects">
+                            <div>
+                                { featured.iter().enumerate().map(|(i, p)| html! {
+                                    <ProjectCard project={p} index={i + 1} />
+                                }).collect::<Html>() }
+                            </div>
+                        </Section>
+                    }
+                } else { html! {} } }
+            </div>
+        </TwoPane>
     }
 }

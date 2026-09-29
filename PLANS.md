@@ -25,7 +25,7 @@
  |---|---|
  | Display identity | **"prockallsyms"** only. **No real name, no email, no old username anywhere in the site, README, or repo metadata.** |
  | Projects | `corrode`, `collector-rs`, `analyzer`, `TestAssist`, `hookdb`, `malpraxis` — all `github.com/prockallsyms/<repo>` (verified accessible via SSH; blurbs in §A.3) |
- | Contact links | GitHub (`github.com/prockallsyms`) + LinkedIn (`linkedin.com/in/redacted`). **No email on site.** |
+ | Contact links | GitHub (`github.com/prockallsyms`) only (LinkedIn link removed post-launch — GitHub-only contact, no email, no real name). |
  | Deploy | GitHub Pages, project site → `https://prockallsyms.github.io/portfolio/` (**confirmed**) |
  | Avatar | GitHub profile picture `https://avatars.githubusercontent.com/u/18057702?v=4` → vendored as `static/assets/avatar.png` (T07) |
  | History | `git filter-repo` rewrite before public Pages deploy (T10) — **confirmed** |
@@ -48,7 +48,7 @@
  | Tests | 3 demo assertions, unrunnable (no wasm-pack installed yet) | rewritten + CI |
  | Repo metadata | `name = "yew-app"`, author "You <you@example.com>", repo URL = create-yew-app | fixed |
  | CI | none | GitHub Actions |
- | Git history | 3 commits, authors `[redacted] <[redacted email]>` + `[redacted]<[redacted email]>` | sanitized (T10) |
+ | Git history | 3 commits, authors [redacted legacy identity] + [redacted legacy identity] | sanitized (T10) |
 
  Old code still `cargo check`s (host and wasm) — the breakage is the Parcel pipeline +
  demo content, not compilation.
@@ -520,7 +520,7 @@
          tagline: "Penetration tester & Rust developer", // §5.3 — final wording pending
          bio: "I'm a math/cyber/development sorta person. I do things @ Elton.",
          github: "https://github.com/prockallsyms",
-         linkedin: "https://www.linkedin.com/in/redacted",
+         linkedin: "https://www.linkedin.com/in/[redacted]", // field removed post-launch — GitHub only
          avatar: "./assets/avatar.png",
      },
      experience: &[],
@@ -943,7 +943,7 @@
 
  3. **History sanitize** (owner-confirmed: `git filter-repo`). Prereq: working tree clean
     (everything committed). Legacy identities to erase: `[redacted] <[redacted email]>`,
-    `[redacted]<[redacted email]>` → `prockallsyms <prockallsyms@users.noreply.github.com>`.
+    `[redacted] <[redacted email]>` → `prockallsyms <prockallsyms@users.noreply.github.com>`.
     ```bash
     # 0) Backup the working repo
     cp -r ~/Projects/portfolio ~/portfolio-backup-$(date +%F)
@@ -956,20 +956,20 @@
     # 2) Mailmap — rewrite both legacy identities
     cat > .mailmap <<'EOF'
     prockallsyms <prockallsyms@users.noreply.github.com> = [redacted] <[redacted email]>
-    prockallsyms <prockallsyms@users.noreply.github.com> = [redacted]<[redacted email]>
+    prockallsyms <prockallsyms@users.noreply.github.com> = [redacted] <[redacted email]>
     EOF
 
     # 3) Rewrite refs + replace identity strings anywhere in commit messages
     git filter-repo --mailmap .mailmap \
-      --replace-message '[redacted]' \
+      --replace-message '[redacted handle]' \
       --replace-message '[redacted email regex]' \
-      --replace-message '[redacted]'
+      --replace-message '[redacted name]'
 
     # 4) Verify — each command must show ONLY the canonical identity / "clean"
     git log --all --format='%an <%ae>' | sort -u
     git log --all --format='%cn <%ce>' | sort -u
-    git grep -I "v\.samuel88" HEAD || echo "clean: no email strings in trees"
-    git grep -I "[redacted]" HEAD || echo "clean: no old handle in trees"
+    git grep -I "[redacted email]" HEAD || echo "clean: no email strings in trees"
+    git grep -I "[redacted handle]" HEAD || echo "clean: no old handle in trees"
 
     # 5) Swap the clean repo back into place (working tree was clean, contents identical)
     cd ~
@@ -1040,14 +1040,16 @@
 
 
 
-### A.2 LinkedIn data (owner-verified)
+### A.2 LinkedIn-sourced data (owner-verified; redacted for public release)
 
-Source: owner-provided export `~/Downloads/[redacted] _ LinkedIn.pdf` (the public
-LinkedIn page masks job titles — the PDF is authoritative). Extracted 2026-07-19 via
-`pdftotext`; this transcription is complete — no need to re-read the PDF in T07.
+Source: an owner-provided LinkedIn PDF export (filename redacted — contained the owner's
+real name). Extracted 2026-07-19 via `pdftotext`; this transcription is complete — no
+need to re-read the PDF in T07. LinkedIn is no longer linked from the site (GitHub-only
+contact, decided post-launch); this section stays only as a record of where the
+Experience/Education/Skills data on the site came from.
 
 - **Self-description:** "I'm a math/cyber/development sorta person. I do things @ Elton."
-- **Location:** [redacted city/state] (default: omit from site — owner call).
+- **Location:** [redacted city/state] (default: omit from site — owner call; not shipped).
 - **Experience** (newest first):
   | org | role | period | notes |
   |---|---|---|---|
@@ -1161,11 +1163,12 @@ Read before editing `src/` in T03/T04/T08. Do not guess APIs.
 ### A.6 Privacy notes
 
 - Git history (pre-T10) contains legacy identities `[redacted] <[redacted email]>`
-  and `[redacted]<[redacted email]>` → sanitized via `git filter-repo` per T10
+  and `[redacted] <[redacted email]>` → sanitized via `git filter-repo` per T10
   (owner-confirmed). Caveat: GitHub retains unreachable objects server-side for a while;
   the rewritten history is what clones/API/Pages see from now on.
 - The site, README, and repo metadata show **only "prockallsyms"** — no real name, no
-  email, no old username (§1; enforced by the T07 DoD grep).
-- `PLANS.md` itself contains owner-only data (e.g., the LinkedIn PDF file name). It is
-  **not shipped** (Pages artifact is `site/` = static + pkg only) but will live in the
-  public repo — decide before the T10 force-push: scrub it or accept it. Owner call.
+  email, no old username, no LinkedIn link (§1; enforced by the T07 DoD grep; LinkedIn
+  removed from the site post-launch — GitHub-only contact).
+- `PLANS.md` previously contained owner-only data (real name, old email, old username,
+  city/state) inline. **Resolved**: redacted in place ahead of making the repo public —
+  see §A.2 for what the redacted LinkedIn section still records for provenance.

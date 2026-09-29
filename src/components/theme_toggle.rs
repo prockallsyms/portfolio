@@ -68,9 +68,22 @@ pub fn theme_toggle() -> Html {
             type="button"
             onclick={on_click}
             aria-label={if *dark { "Switch to light mode" } else { "Switch to dark mode" }}
-            class="rounded-md p-1 text-lg leading-none transition-colors hover:bg-slate-200/70 focus-visible:outline-2 focus-visible:outline-accent active:bg-slate-300/70 dark:hover:bg-slate-800/70 dark:active:bg-slate-700/70"
+            class="rounded-sm p-1 text-[var(--fg-muted)] transition-colors hover:text-[var(--fg)]"
         >
-            { if *dark { "☀" } else { "🌙" } }
+            { if *dark {
+                html! {
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <circle cx="8" cy="8" r="3.5" stroke="currentColor" stroke-width="1.3"/>
+                        <path stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M8 0.75v1.7M8 13.55v1.7M15.25 8h-1.7M2.45 8H.75M13.13 2.87l-1.2 1.2M4.07 11.93l-1.2 1.2M13.13 13.13l-1.2-1.2M4.07 4.07l-1.2-1.2"/>
+                    </svg>
+                }
+            } else {
+                html! {
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" d="M14 9.7A6.2 6.2 0 0 1 6.3 2 6.2 6.2 0 1 0 14 9.7Z"/>
+                    </svg>
+                }
+            } }
         </button>
     }
 }

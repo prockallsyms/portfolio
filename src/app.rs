@@ -27,10 +27,10 @@ pub fn app() -> Html {
         <BrowserRouter>
             <a
                 href="#main-content"
-                class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-slate-900 focus:shadow-lg focus-visible:outline-2 focus-visible:outline-accent dark:focus:bg-slate-900 dark:focus:text-slate-100"
+                class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-sm focus:border focus:border-[var(--border-strong)] focus:bg-[var(--surface)] focus:px-3 focus:py-2 focus:font-mono focus:text-sm focus:text-[var(--fg)]"
             >{"Skip to content"}</a>
             <Nav />
-            <main id="main-content" class="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 sm:py-24">
+            <main id="main-content" class="mx-auto w-full max-w-5xl px-6 py-16 sm:py-24">
                 <Switch<AppRoute> render={Callback::from(switch)} />
             </main>
             <Footer />

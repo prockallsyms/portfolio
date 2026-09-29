@@ -1,4 +1,4 @@
-//! Small rounded chip for project tags.
+//! Small mono hairline chip for project tags.
 
 use yew::prelude::*;
 
@@ -9,11 +9,11 @@ pub struct TagBadgeProps {
     pub label: &'static str,
 }
 
-/// A small rounded chip.
+/// A small hairline-bordered mono chip.
 #[function_component(TagBadge)]
 pub fn tag_badge(props: &TagBadgeProps) -> Html {
     html! {
-        <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+        <span class="rounded-sm border border-[var(--border)] px-1.5 py-0.5 font-mono text-[0.6875rem] text-[var(--fg-muted)]">
             { props.label }
         </span>
     }
